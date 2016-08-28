@@ -28,6 +28,20 @@ for (i in 1:nrow(train)) {
 
 train <- cbind(train,diffs)
 
+# Damn, data not flat
+# Manage with NA values
+avg1 <- round(mean(train$Volume[train$diffs < 50], na.rm = TRUE), digits = 2)
+avg2 <- round(mean(train$Volume[train$diffs > 50], na.rm = TRUE), digits = 2)
+for (i in 1:nrow(train)) {
+  if (is.na(train[i, 6])) {
+    if (train$diffs[i] < 50) {
+      train$Volume[i] <- avg1
+    } else {
+      train$Volume[i] <- avg2
+    }
+  }
+}
+
 # Extensible time series #
 Train <- xts(train[, -1], order.by = as.POSIXct(train$Date))
 
