@@ -1,5 +1,5 @@
 # Simple Bitcoin Forecast implementation based on Bayesian regrssion #
-# Reason: internal researches
+# Reason: internal researches #
 # Author: Jared Denisov jd@themondays.ca #
 
 library("bsts")
@@ -19,7 +19,7 @@ train$Market.Cap <- gsub(",", "", train$Market.Cap)
 train$Market.Cap <- as.numeric(train$Market.Cap)
 train$Volume <- as.numeric(train$Volume)
 
-# Daily differences
+# Daily differences #
 diffs <- matrix(c(0), nrow = 0, ncol = 1)
 for (i in 1:nrow(train)) {
   diffs <- rbind(diffs, train[i,3] - train[i,4])
@@ -28,8 +28,8 @@ for (i in 1:nrow(train)) {
 
 train <- cbind(train,diffs)
 
-# Damn, data not flat
-# Manage with NA values
+# Damn, data not flat #
+# Manage with NA values #
 avg1 <- round(mean(train$Volume[train$diffs < 50], na.rm = TRUE), digits = 2)
 avg2 <- round(mean(train$Volume[train$diffs > 50], na.rm = TRUE), digits = 2)
 for (i in 1:nrow(train)) {
